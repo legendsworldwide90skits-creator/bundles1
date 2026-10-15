@@ -2329,7 +2329,7 @@ const em=$('gateE').value.trim();
 if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){$('gateErr').textContent='Please enter a valid email address.';$('gateE').focus();return}
 $('gateErr').textContent='';$('gateB').disabled=true;$('gateB').textContent='Unlocking…';
 const body=new URLSearchParams({email:em,consent:'notice',source:'bundles1 · '+ref});
-try{await fetch(SHEET,{method:'POST',mode:'no-cors',body})}catch(e){}
+try{fetch(SHEET,{method:'POST',mode:'no-cors',body,keepalive:true}).catch(()=>{})}catch(e){}
 try{localStorage.setItem(KEY,'1')}catch(e){}
 document.body.classList.remove('locked')});
 // Sample bundle links: ?b=BR-001,BR-017
