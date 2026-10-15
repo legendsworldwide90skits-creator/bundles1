@@ -1,1 +1,3 @@
-# bundles1
+# Legends Worldwide — Bundles
+
+Stock catalog for bundles.
