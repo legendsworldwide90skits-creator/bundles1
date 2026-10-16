@@ -154,7 +154,7 @@ const tt=$('totop');if(tt){const f=()=>tt.classList.toggle('show',scrollY>900);a
 </div></div>
 <script>
 (function(){
-const SHEET='https://script.google.com/macros/s/AKfycbxqVXhXIB2h4RugPKw1zw2HvutlNnp1sdMq0ciPiICXwKl6TUvuVrxwxg5Kb0M1moGFEQ/exec';const KEY='lw_unlocked_v1';const $=id=>document.getElementById(id);
+const SHEET='https://script.google.com/macros/s/AKfycbxqVXhXIB2h4RugPKw1zw2HvutlNnp1sdMq0ciPiICXwKl6TUvuVrxwxg5Kb0M1moGFEQ/exec';const KEY='lw_unlocked_ca_v1';const $=id=>document.getElementById(id);
 const qs=new URLSearchParams(location.search);const ref=(qs.get('ref')||'direct').slice(0,40);
 let open=true;try{open=!localStorage.getItem(KEY)}catch(e){}
 if(open){document.body.classList.add('locked');setTimeout(()=>{try{$('gateE').focus()}catch(e){}},300)}
