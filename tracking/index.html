@@ -1,0 +1,230 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Worldwide Tracking System™ — Legends Worldwide®</title>
+<meta name="description" content="Live monitoring of every Legends Worldwide® shipment: status, route and tracking code.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Zalando+Sans+Expanded:400,700|Zalando+Sans:400,700&display=swap" rel="stylesheet">
+<style>
+:root{--y:#ffc400;--ink:#000;--dim:#5f5f5f;--line:#e3e3e3;--soft:#f4f4f4;
+--display:'Zalando Sans Expanded','Zalando Sans',system-ui,sans-serif;--body:'Zalando Sans',system-ui,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:#fff;color:#000;font:14px/1.5 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+/* site chrome (same as the website) */
+.lw-ann{background:var(--y);color:#000;overflow:hidden;white-space:nowrap;font-size:12.5px;padding-block:5px}
+.lw-track{display:inline-flex;gap:64px;padding-left:64px;animation:lwm 38s linear infinite}
+.lw-track span{flex:none}
+@keyframes lwm{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.lw-track{animation:none}}
+.lw-nav{background:#000;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-inline:max(16px,calc(50% - 590px))}
+.lw-nav::-webkit-scrollbar{display:none}
+.lw-nav a{flex:none;color:#fff;text-decoration:none;font-size:13.5px;padding:15px 18px 13px;border-bottom:2px solid transparent}
+.lw-nav a:first-child{padding-left:20px}
+.lw-nav a:hover,.lw-nav a:focus-visible{color:var(--y);outline:none}
+.lw-top{max-width:1180px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.lw-logo{display:block;line-height:0}.lw-logo img{height:64px;width:auto;display:block}
+.lw-back{color:#000;text-decoration:none;font-size:13px;font-weight:700;border-bottom:2px solid var(--y);padding-bottom:2px;white-space:nowrap}
+.lw-back:hover{background:var(--y)}
+@media (max-width:640px){.lw-logo img{height:48px}.lw-back{font-size:12px}.lw-nav a{font-size:12.5px;padding-inline:12px}}
+@media (max-width:420px){.lw-back{display:none}.lw-top{justify-content:center}}
+/* hero */
+.hero{background:#000;color:#fff}
+.hero .in,.wrap{max-width:1180px;margin:0 auto;padding-inline:20px}
+.hero .in{padding-block:46px 40px}
+.eyebrow{font-size:12px;letter-spacing:.24em;color:var(--y);margin-bottom:14px}
+h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(30px,5.6vw,58px);line-height:1.02;letter-spacing:-.01em;margin:0 0 14px;text-wrap:balance}
+h1 span{display:block;color:var(--y)}
+h1 sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.08em}
+.lead{max-width:660px;color:#cfcfcf;font-size:15px;margin:0}
+.lead b{color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#2a2a2a;border:1px solid #2a2a2a;margin-top:28px;max-width:760px}
+.stat{background:#000;padding:14px 16px}
+.stat b{display:block;font-family:var(--display);font-size:clamp(22px,3.4vw,32px);color:var(--y);line-height:1.1;font-variant-numeric:tabular-nums}
+.stat small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#bdbdbd}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* tools */
+.tools{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding-block:14px}
+.tools .in{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search{flex:1 1 280px;display:flex;align-items:center;border:1px solid #000;padding-inline:12px}
+.search svg{flex:none;width:16px;height:16px}
+.search input{flex:1;border:0;outline:0;font:15px var(--body);padding:11px 10px;background:transparent;min-width:0}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.f{appearance:none;border:1px solid #000;background:#fff;color:#000;font:12px var(--body);text-transform:uppercase;letter-spacing:.04em;padding:8px 12px;cursor:pointer}
+.f:hover{background:var(--soft)}
+.f[aria-pressed="true"]{background:var(--y)}
+.f[style]{border-color:var(--c);color:var(--c);font-weight:700}.f[style][aria-pressed="true"]{background:var(--c);color:#fff}.f[style][aria-pressed="true"] i{color:#fff}
+
+.f i{font-style:normal;color:var(--dim);margin-left:4px}
+/* list: one row per shipment */
+.wrap{padding-block:22px 80px}
+.count{font-size:12.5px;color:var(--dim);margin:0 0 10px}
+.list{border-top:2px solid #000}
+.thead,.row{display:grid;grid-template-columns:minmax(0,2.3fr) minmax(0,2.4fr) 200px minmax(0,1.6fr) minmax(0,1.6fr);gap:16px;align-items:center;padding:14px 12px}
+.thead{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);padding-block:10px;border-bottom:1px solid #000}
+.row{border-bottom:1px solid #cfcfcf}
+.row:nth-of-type(even){background:#f7f7f7}
+.row:hover{background:#fff6d6}
+.kit{font-weight:700;font-size:14px;line-height:1.35;margin:0}
+.type{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:2px}
+.route{display:flex;align-items:center;gap:10px;min-width:0}
+.route b{font-family:var(--display);font-size:12.5px;text-transform:uppercase;line-height:1.25;overflow-wrap:anywhere}
+.plane{flex:none;width:18px;height:18px}
+.badge{display:inline-block;max-width:100%;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 8px;line-height:1.25;white-space:normal;border:1px solid #000;border-radius:2px}
+.b-transit{background:#f28c00;border-color:#f28c00;color:#fff}
+.b-delivered{background:#1f9d55;border-color:#1f9d55;color:#fff}
+.b-pending{background:#2f6fde;border-color:#2f6fde;color:#fff}
+.b-hold{background:#7a7a7a;border-color:#7a7a7a;color:#fff}
+.b-qc{background:#d93025;border-color:#d93025;color:#fff}
+.sdet{display:block;font-size:11.5px;color:var(--dim);margin-top:4px;line-height:1.3}
+.code{font:13px ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}.code b{font-weight:800;color:#000;letter-spacing:.02em}.c-sc b{font-weight:700;color:#333}
+.code small{display:block;font:10px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+.code .na{font-family:var(--body);color:var(--dim)}
+.act{text-align:right}
+.go{display:inline-flex;align-items:center;gap:6px;background:#000;color:#fff;text-decoration:none;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:8px 12px;border:0;cursor:pointer;font-family:var(--body)}
+.go:hover{background:var(--y);color:#000}
+.go.ghost{background:#fff;color:#000;border:1px solid #000}
+.go.ghost:hover{background:var(--y)}
+/* supplier→QC code left, final tracking right */
+.row .c-cd{order:1}
+@media (max-width:900px){
+ .thead{display:none}
+ .row{grid-template-columns:minmax(0,56fr) minmax(0,44fr);gap:8px 12px;padding:14px 4px}
+ .row .badge{font-size:10px;padding:4px 7px}
+ .row .c-kit{grid-column:1}.row .c-st{grid-column:2;grid-row:1;text-align:right}
+ .row .c-rt{grid-column:1/-1}
+ .row .c-sc{grid-column:1;text-align:left}.row .c-cd{grid-column:2;text-align:right}
+ .sdet{display:none}
+}
+.empty,.state{border:1px solid #000;border-left:6px solid var(--y);padding:16px 18px;max-width:640px}
+.state p{margin:0}
+.more{display:block;margin:18px auto 0;appearance:none}
+footer{border-top:2px solid #000;max-width:1180px;margin:0 auto;padding:18px 20px 40px;text-transform:uppercase;font-size:11.5px;letter-spacing:.08em;text-align:center}
+.sk{height:320px;background:linear-gradient(90deg,#f4f4f4 0,#fafafa 50%,#f4f4f4 100%);background-size:200% 100%;animation:sk 1.2s linear infinite;border:1px solid var(--line)}
+@keyframes sk{to{background-position:-200% 0}}
+</style></head><body>
+<div class="lw-ann" aria-hidden="true"><div class="lw-track"><span>Shipping from Spain +11 countries by our agents</span><span>SIA™ Web-scraping Search Engine</span><span>Public condition verification</span><span>Authenticity verified · Worldwide delivery</span><span>Shipping from Spain +11 countries by our agents</span><span>SIA™ Web-scraping Search Engine</span><span>Public condition verification</span><span>Authenticity verified · Worldwide delivery</span></div></div>
+<nav class="lw-nav" aria-label="Legends Worldwide"><a href="https://www.legendsworldwide.com.ar/latest-selection/">Shop</a><a href="https://www.legendsworldwide.com.ar/products/sia-fast-global-search/">Fast Search</a><a href="https://www.legendsworldwide.com.ar/products/global-search/">Global Search</a><a href="https://legendsworldwide90skits-creator.github.io/bundles1/?ref=tracking">Wholesale</a><a href="https://www.legendsworldwide.com.ar/about-us/">About us</a></nav>
+<div class="lw-top"><a class="lw-logo" href="https://www.legendsworldwide.com.ar/"><img src="../img/lw-logo.webp" alt="Legends Worldwide" width="720" height="175"></a><a class="lw-back" href="https://www.legendsworldwide.com.ar/">Back to home page</a></div>
+
+<section class="hero"><div class="in">
+<div class="eyebrow">LEGENDS® INTERNATIONAL AIRPORT</div>
+<h1>Worldwide <span>Tracking System<sup>™</sup></span></h1>
+<p class="lead"><b>Every shipment, in public.</b> Follow each Legends Worldwide® order from our agents to your door — status, route and tracking code, updated as parcels move.</p>
+<div class="stats" aria-live="polite"><div class="stat"><b id="sTotal">—</b><small>Shipments</small></div><div class="stat"><b id="sTransit">—</b><small>In transit</small></div><div class="stat"><b id="sDelivered">—</b><small>Delivered</small></div><div class="stat"><b id="sCountries">—</b><small>Destinations</small></div></div>
+</div></section>
+
+<div class="tools"><div class="wrap in" style="padding-block:0">
+<label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Search by shirt, country or tracking code" autocomplete="off"></label>
+<div class="filters" id="filters" role="group" aria-label="Filter by status"></div>
+</div></div>
+
+<main class="wrap">
+<p class="count" id="count"></p>
+<div class="list" id="list"><div class="sk"></div></div>
+<button class="go ghost more" id="more" type="button" hidden>Show more</button>
+</main>
+<footer>LEGENDS WORLDWIDE® · Worldwide Tracking System™ · Live data</footer>
+
+<script>
+(function(){
+// Source: public Google Sheet (read-only). Only the columns below are shown on this page.
+const SHEET_ID='1y1xGRtk9ellQkL7jQBn7t0sFU-Y39EN1', GID='273344593';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clean=s=>String(s==null?'':s).replace(/[\u{1F300}-\u{1FAFF}⌀-⏿☀-➿️ℹ\u{1F1E6}-\u{1F1FF}]/gu,'').replace(/\s+/g,' ').trim();
+// Header matching (by label, so column order in the sheet can change)
+const WANT={kit:/LEGENDS.*KIT|^KIT$/i,status:/^STATUS/i,from:/DEPARTURE/i,to:/DESTINATION/i,code:/^FINAL TRACKING CODE/i,web:/^FINAL FOLLOW/i,carrier:/^FINAL MAILING/i,scode:/^SUPPLIER.?S TRACKING CODE/i,scarrier:/^SUPPLIER.?S MAILING/i,type:/KIT OR BUNDLE/i};
+const GROUPS=[
+ {k:'all',l:'All'},
+ {k:'transit',l:'In transit',re:/in transit|departed|second wire/i,c:'#0f51a5'},
+ {k:'delivered',l:'Delivered',re:/deliver|arrived/i,c:'#11734b'},
+ {k:'pending',l:'Preparing',re:/pending|pre-?shipment/i,c:'#ad0504'},
+ {k:'hold',l:'On hold',re:/hold|suspended/i,c:'#5a3286'},
+ {k:'qc',l:'QC not passed',re:/not passed|refund|check failed/i,c:'#f40c08'}];
+const ORDER=['qc','delivered','transit','hold','pending'];
+const groupOf=s=>{for(const k of ORDER){if(GROUPS.find(g=>g.k===k).re.test(s))return k}return 'pending'};
+// Status colors = the chip colors used in the tracking sheet
+const PAL=[
+ [/recently delivered/i,'#d3edbe','#11734b'],
+ [/arrived|delivered/i,'#bfe1f6','#0a53a8'],
+ [/in transit/i,'#0f51a5','#ffffff'],
+ [/departed/i,'#ffcfc9','#b10202'],
+ [/not passed|refund|authenticity check failed/i,'#f40c08','#ffffff'],
+ [/pending supplier/i,'#ad0504','#ffffff'],
+ [/supplier.?s pre-?shipment/i,'#ffd538','#473821'],
+ [/agent pre-?shipment/i,'#f2a33a','#3d2400'],
+ [/qc passed/i,'#e7cfef','#5a3286'],
+ [/.*/,'#e8eaed','#3c4043']];
+const pal=s=>PAL.find(p=>p[0].test(s));
+let ROWS=[],FILTER='all',SHOW=36;
+
+function trackUrl(r){
+  if(/^https?:\/\//i.test(r.web))return r.web;
+  const c=encodeURIComponent(r.code), m=(r.carrier+' '+r.web).toLowerCase();
+  if(!r.code)return '';
+  if(m.includes('dhl'))return 'https://www.dhl.com/global-en/home/tracking/tracking-express.html?submit=1&tracking-id='+c;
+  if(m.includes('fedex'))return 'https://www.fedex.com/fedextrack/?trknbr='+c;
+  if(m.includes('ups'))return 'https://www.ups.com/track?tracknum='+c;
+  if(m.includes('usps'))return 'https://tools.usps.com/go/TrackConfirmAction?tLabels='+c;
+  if(m.includes('correos'))return 'https://www.correos.es/es/es/herramientas/localizador/envios/detalle?tracking-number='+c;
+  if(m.includes('royal mail'))return 'https://www.royalmail.com/track-your-item#/tracking-results/'+c;
+  return 'https://parcelsapp.com/en/tracking/'+c;
+}
+
+const isCode=c=>c&&c.length<=40&&c.split(' ').length<=3&&/\d/.test(c);
+const PLANE='<svg class="plane" viewBox="0 0 24 24" fill="#000"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/></svg>';
+function card(r){
+  const g=groupOf(r.status), ok=isCode(r.code);
+  const p=pal(r.status||'');const label=r.status||'—';const det='';
+  return '<div class="row"><div class="c-kit"><p class="kit">'+esc(r.kit)+'</p>'+(r.type?'<div class="type">'+esc(r.type)+'</div>':'')+'</div>'
+   +'<div class="c-rt route"><b>'+esc(r.from||'—')+'</b>'+PLANE+'<b>'+esc(r.to||'—')+'</b></div>'
+   +'<div class="c-st"><span class="badge" style="background:'+p[1]+';color:'+p[2]+';border-color:'+p[1]+'">'+esc(label)+'</span>'+det+'</div>'
+   +'<div class="c-cd code">'+(r.carrier?'<small>'+esc(r.carrier)+'</small>':'')+(ok?'<b>'+esc(r.code)+'</b>':'<span class="na">'+(g==='delivered'?'—':'Assigned at dispatch')+'</span>')+'</div>'
+   +'<div class="c-sc code">'+(r.scarrier?'<small>'+esc(r.scarrier)+'</small>':'')+(isCode(r.scode)?'<b>'+esc(r.scode)+'</b>':(/not needed/i.test(r.scarrier||'')?'':'<span class="na">Soon available</span>'))+'</div></div>';
+}
+const HEAD='<div class="thead"><div>Shirt</div><div>Route</div><div>Status</div><div>Supplier → our QC</div><div>Final tracking</div></div>';
+
+function render(){
+  const q=$('q').value.trim().toLowerCase();
+  const rows=ROWS.filter(r=>(FILTER==='all'||groupOf(r.status)===FILTER)&&(!q||(r.kit+' '+r.from+' '+r.to+' '+r.code+' '+r.scode+' '+r.status).toLowerCase().includes(q)));
+  $('count').textContent=rows.length+' shipment'+(rows.length===1?'':'s')+(q||FILTER!=='all'?' found':'');
+  $('list').innerHTML=rows.length?HEAD+rows.slice(0,SHOW).map(card).join(''):'<div class="empty">No shipments match your search.</div>';
+  $('more').hidden=rows.length<=SHOW;
+}
+
+function filters(){
+  const n=k=>k==='all'?ROWS.length:ROWS.filter(r=>groupOf(r.status)===k).length;
+  $('filters').innerHTML=GROUPS.filter(g=>g.k==='all'||n(g.k)).map(g=>'<button class="f" type="button" data-k="'+g.k+'" aria-pressed="'+(g.k===FILTER)+'"'+(g.c?' style="--c:'+g.c+'"':'')+'>'+g.l+'<i>'+n(g.k)+'</i></button>').join('');
+}
+
+function stats(){
+  const cnt=k=>ROWS.filter(r=>groupOf(r.status)===k).length;
+  $('sTotal').textContent=ROWS.length;$('sTransit').textContent=cnt('transit');$('sDelivered').textContent=cnt('delivered');
+  $('sCountries').textContent=new Set(ROWS.map(r=>r.to.toLowerCase()).filter(t=>t&&!/stock/.test(t))).size;
+}
+
+function load(table){
+  const cols=table.cols.map(c=>clean(c.label));
+  const idx={};for(const k in WANT)idx[k]=cols.findIndex(l=>WANT[k].test(l));
+  if(idx.kit<0)throw new Error('columns');
+  ROWS=table.rows.map(r=>{const o={};for(const k in idx){const c=idx[k]>=0?r.c[idx[k]]:null;o[k]=clean(c&&(c.f!=null?c.f:c.v))}return o})
+    .filter(r=>r.kit&&!/^(kit|legends)/i.test(r.kit)&&!/^stock$/i.test(r.to));
+  stats();filters();render();
+}
+
+function fail(){
+  $('list').innerHTML='<div class="state"><p><b>Live data is temporarily unavailable.</b> Please try again in a few minutes, or message us with your order and we will send you the tracking details.</p></div>';
+}
+
+window.__lwTrack=function(res){try{if(!res||res.status==='error')throw 0;load(res.table)}catch(e){fail()}};
+const s=document.createElement('script');
+s.src='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?gid='+GID+'&headers=2&tqx=responseHandler:__lwTrack';
+s.onerror=fail;document.body.appendChild(s);
+setTimeout(()=>{if(!ROWS.length&&$('list').querySelector('.sk'))fail()},15000);
+
+$('q').addEventListener('input',()=>{SHOW=36;render()});
+$('filters').addEventListener('click',e=>{const b=e.target.closest('.f');if(!b)return;FILTER=b.dataset.k;SHOW=36;filters();render()});
+$('more').onclick=()=>{SHOW+=36;render()};
+})();
+</script>
+</body></html>
