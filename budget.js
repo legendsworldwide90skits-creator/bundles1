@@ -17,7 +17,7 @@ const W={
  'Flamengo':2.5,'Corinthians':2.5,'Palmeiras':2.5,
  'Mexican clubs':1.5,'MLS':1.5,'Asian clubs':1.5,'Jackets & training tops':1.2,
  'Vasco da Gama':1.2,'Botafogo':1.2,'Fluminense':1.2,'Grêmio':1.2,'Internacional':1.2,
- 'Atlético Mineiro':1.2,'Cruzeiro':1.2,'Bahia':1.2
+ 'Atlético Mineiro':1.2,'Cruzeiro':1.2,'Bahia':1.2,'Other Brazilian clubs':1.2
 };
 const IS_CA=/\/ca\/?(index\.html)?$/.test(location.pathname);
 // Central America stock (different section names)
@@ -29,9 +29,11 @@ if(IS_CA)Object.assign(W,{'Real Madrid':10,'FC Barcelona':10,'Juventus':9,'Europ
 const STOCK=IS_CA?'Central America':'South America';
 const info=new Map();
 document.querySelectorAll('.season').forEach(s=>{
- const name=(s.querySelector('h2')||{}).textContent||'';const w=W[name.trim()]||0;
+ const name=(s.querySelector('h2')||{}).textContent||'';const w0=W[name.trim()]||0;
  s.querySelectorAll('.card').forEach(c=>{const t=((c.querySelector('h3')||{}).textContent||'').trim();
   let k=1;if(/training|tank|polo|shorts|jacket/i.test(t))k=.6;
+  // Other Brazilian clubs: only the known names count as filler; small regional clubs never
+  const w=(name.trim()==='Other Brazilian clubs'&&!/vasco|botafogo|fluminense|gr[eê]mio|internacional|atl[eé]tico mineiro|cruzeiro|bahia/i.test(t))?0:w0;
   info.set(c,{w:w*k,sec:s.id,t:t.toLowerCase()})})});
 
 const css=`.budget{margin:16px 0 0;max-width:760px;border:1px solid #000;border-left:6px solid var(--y);background:#fff;padding:14px 18px;text-align:left}
