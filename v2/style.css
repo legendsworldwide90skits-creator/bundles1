@@ -118,3 +118,6 @@ body.locked main,body.locked .mobile-summary{filter:blur(6px);pointer-events:non
 .stock-info .stock-desc{margin:0 0 30px}
 .stock-info .trust{margin-bottom:0}
 @media(max-width:620px){.stock-info{padding-top:40px}}
+/* logo aspect fix (gate + footer): never stretch the 720×175 logo */
+.gbox img,.footer-main img{height:auto;aspect-ratio:720/175;object-fit:contain}
+.gbox img{width:210px;margin-bottom:22px}
