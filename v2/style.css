@@ -130,3 +130,7 @@ body.locked main,body.locked .mobile-summary{filter:blur(6px);pointer-events:non
 
 /* hero buttons: primary gold, secondary black/gold */
 .hero-actions .button.black{background:var(--gold);border-color:var(--gold);color:#111}.hero-actions .button.black:hover{background:#e6b000;border-color:#e6b000;color:#111}.hero-actions .button.outline{background:#111;border-color:#111;color:var(--gold)}.hero-actions .button.outline:hover{background:#000;border-color:#000;color:var(--gold)}
+
+/* hero "curated by" line always readable: sits above the photos on a dark fade */
+.hero-art .art-foot{z-index:6;left:0;right:0;bottom:0;padding:26px 22px 14px;background:linear-gradient(to bottom,#10101000,#101010 55%)}
+@media(max-width:620px){.hero-art{height:calc(71vw + 100px)}.hero-art .art-foot{padding:22px 14px 10px}}

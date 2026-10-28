@@ -6,12 +6,21 @@ Run from the repo root:  python3 v2/tools/build.py
 import json,os,sys,datetime
 HERE=os.path.dirname(os.path.abspath(__file__));V2=os.path.dirname(HERE);REPO=os.path.dirname(V2)
 sys.path.insert(0,HERE);from extract import ex
+import re
+def fixwords(x):
+    if isinstance(x,str):
+        return re.sub(r'(?i)match[ -]worn',lambda m:'MATCH ISSUE' if m.group(0).isupper() else ('Match issue' if m.group(0)[0]=='M' else 'match issue'),x)
+    if isinstance(x,list):
+        out=[];[out.append(fixwords(v)) for v in x if fixwords(v) not in out];return out
+    if isinstance(x,dict): return {k:fixwords(v) for k,v in x.items()}
+    return x
 # Pieces removed from v2 (bad photo, etc.) — kept out on every rebuild
 EXCLUDE={'SA-1414'}
 meta={'updated':datetime.date.today().isoformat()}
 for key,src in [('sa','v1/sa.html'),('ca','v1/ca.html')]:
     d=ex(os.path.join(REPO,src),key,'')
     d['items']=[i for i in d['items'] if i['c'] not in EXCLUDE]
+    d=fixwords(d)  # never show 'match worn' — always 'match issue'
     json.dump(d,open(os.path.join(V2,'data',key+'.json'),'w'),ensure_ascii=False,separators=(',',':'))
     meta[key]=len(d['items'])
 json.dump(meta,open(os.path.join(V2,'data','meta.json'),'w'))
