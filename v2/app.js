@@ -58,9 +58,9 @@ function renderSwitch(){const tab=k=>{const c=CFG[k],on=k===STOCK,n=counts[k];re
  $('heroCount').textContent=products.length?products.length.toLocaleString('en-US')+' '+t('inStock')+' · '+sName():'';}
 /* ---------- team / league tabs ---------- */
 function renderTeams(){const by={};sections.forEach(s=>{(by[s.region]=by[s.region]||[]).push(s)});
- let h=`<div class="grp"><button class="tchip${team?'':' on'}" data-team="">${t('all')}<i>${products.length}</i></button></div>`;
- for(const r in by)h+=`<div class="grp"><span>${esc(r)}</span>${by[r].map(s=>`<button class="tchip${team===s.id?' on':''}" data-team="${s.id}">${esc(s.name)}<i>${s.n}</i></button>`).join('')}</div>`;
- $('teams').innerHTML=h;}
+ let h=`<option value="">${t('allTeams')} (${products.length.toLocaleString('en-US')})</option>`;
+ for(const r in by)h+=`<optgroup label="${esc(r)}">${by[r].map(s=>`<option value="${s.id}">${esc(s.name)} (${s.n})</option>`).join('')}</optgroup>`;
+ $('team').innerHTML=h;$('team').value=team;}
 function translate(){document.documentElement.lang=language;$('lang').innerHTML=language==='en'?'EN <span>/ ES</span>':'ES <span>/ EN</span>';document.querySelectorAll('[data-i18n]').forEach(e=>e.innerHTML=t(e.dataset.i18n));document.querySelectorAll('[data-i18n-html]').forEach(e=>e.innerHTML=t(e.dataset.i18nHtml));$('lang').setAttribute('aria-label',language==='en'?'Switch to Spanish':'Switch to English');$('search').placeholder=language==='es'?'Buscar equipo, jugador o referencia…':'Search team, player or reference…';$('gateE').placeholder=language==='es'?'Tu email':'Your email';$('closeModal').setAttribute('aria-label',t('close'));renderSwitch();renderTeams();render();}
 const sizeOk=(p,z)=>!z||String(p.size||'').toUpperCase().split(/\s*\/\s*/).includes(z);
 function card(p,off){const sel=selection.has(p.id);return `<article class="product-card ${sel?'selected':''}"><div class="product-visual"><img src="${img(p)}" alt="${esc(p.name)}" loading="lazy" width="300" height="340" data-detail="${p.id}"><span class="product-ref">${p.id}</span>${p.imgs.length>1?`<span class="count">1/${p.imgs.length}</span>`:''}<button class="quick-view" data-detail="${p.id}">${t('detail')} ↗</button></div><div class="product-body"><h3>${esc(p.name)}</h3><div class="product-meta">${p.size?`<span>${t('sizeLabel')} ${esc(p.size)}</span>`:''}${p.condition?`<span>${esc(conditionName(p.condition))}</span>`:''}${(p.tags||[]).map(x=>`<span class="tg">${esc(x)}</span>`).join('')}</div><div class="product-price"><div><b>${money(Math.max(0,p.price-off))}</b>${off?`<del>${money(p.price)}</del>`:''}</div><button class="add ${sel?'is-selected':''}" data-add="${p.id}" aria-label="${esc(t(sel?'remove':'add')+' '+p.name)}" aria-pressed="${sel}">${sel?'✓':'+'}</button></div></div></article>`;}
@@ -103,7 +103,7 @@ function draft(form){const data=new FormData(form),curated=form.dataset.curated=
 }
 let toastTimer;function toast(msg){$('toast').textContent=msg;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,2600);}
 function resetFilters(){$('search').value='';$('size').value='';$('condition').value='';$('sort').value='featured';team='';$('team').value='';onlySel=false;flatLimit=48;renderTeams();render();}
-function setTeam(id){team=id;$('team').value=id;flatLimit=48;onlySel=false;renderTeams();render();const top=$('teams').getBoundingClientRect().top+scrollY-20;if(scrollY>top)scrollTo({top,behavior:'smooth'});}
+function setTeam(id){team=id;$('team').value=id;flatLimit=48;onlySel=false;renderTeams();render();const top=$('filters').getBoundingClientRect().top+scrollY-20;if(scrollY>top)scrollTo({top,behavior:'smooth'});}
 /* ---------- Bundle by budget (same logic as the current budget.js) ---------- */
 const W={'Real Madrid':10,'FC Barcelona':10,'Manchester United':10,'Manchester City':9,'Chelsea':9,'Liverpool':10,'AC Milan':10,'Inter':9,'Juventus':9,'Bayern Munich':9,'Paris Saint-Germain':9,'Brazil national team':10,'National teams':9,'Spanish clubs':6,'English clubs':6,'Italian clubs':6,'German clubs':6,'French clubs':5,'Ajax':6,'Portuguese clubs':5,'Fiorentina':6,'South American clubs':3,'Clubs around the world':3,'Santos':3,'São Paulo':2.5,'Flamengo':2.5,'Corinthians':2.5,'Palmeiras':2.5,'Mexican clubs':1.5,'MLS':1.5,'Asian clubs':1.5,'Jackets & training tops':1.2,'Other Brazilian clubs':1.2};
 const WCA=Object.assign({},W,{'Real Madrid':10,'FC Barcelona':10,'Juventus':9,'European clubs':6,'Argentina':9,'National teams':8,'Player issue — European clubs & national teams':8,'Player issue — South American & other clubs':4,'Player issue — Liga MX':3,'Boca Juniors':5,'River Plate':5,'Grêmio':2.5,'São Paulo':2.5,'Colo-Colo':2.5,'Argentine clubs':2,'Brazilian clubs':2,'Chilean clubs':1.5,'South American clubs':2,'Chivas':3,'Club América':3,'Liga MX clubs':1.5,'Mexico national team':4,'MLS, CONCACAF & rest of the world':1.5});
@@ -120,7 +120,7 @@ function build(v){v=Math.round(+v);const r=$('bRes');r.classList.remove('err');
  lastBudget=v;const res=pick(v);if(!res.length){r.classList.add('err');r.textContent=t('bErrLow');$('bAct').hidden=true;return}
  selection=new Set(res.map(p=>p.id));persist();render();const a=totals();
  r.innerHTML=L('bDone',{n:a.n,tot:money(a.total),off:a.off?L('bOff',{off:a.off}):'',b:money(v)});$('bAct').hidden=false;}
-function showBundle(){onlySel=true;team='';renderTeams();render();scrollTo({top:$('teams').getBoundingClientRect().top+scrollY-20,behavior:'smooth'})}
+function showBundle(){onlySel=true;team='';renderTeams();render();scrollTo({top:$('collection').getBoundingClientRect().top+scrollY-20,behavior:'smooth'})}
 /* ---------- events ---------- */
 document.addEventListener('click',e=>{const add=e.target.closest('[data-add]'),remove=e.target.closest('[data-remove]'),details=e.target.closest('[data-detail]'),price=e.target.closest('[data-open="pricing"]'),tm=e.target.closest('[data-team]'),ex=e.target.closest('[data-expand]'),gal=e.target.closest('[data-gal]');
  if(add){toggle(add.dataset.add);toast(selection.has(add.dataset.add)?(language==='es'?'Prenda agregada':'Piece added'):(language==='es'?'Prenda quitada':'Piece removed'));}
@@ -157,7 +157,6 @@ async function setStock(k,first){const d=await getStock(k);STOCK=k;C=CFG[k];prod
  try{selection=new Set(JSON.parse(localStorage.getItem(C.sel)||'[]'))}catch{selection=new Set()}
  selection=new Set([...selection].filter(id=>products.some(p=>p.id===id)));
  team='';expanded=new Set();flatLimit=48;onlySel=false;$('bRes').textContent='';$('bAct').hidden=true;
- $('team').innerHTML='<option value="" data-i18n="allTeams">'+t('allTeams')+'</option>'+sections.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
  $('condWrap').hidden=!products.some(p=>p.condition);if($('condWrap').hidden)$('condition').value='';
  HERO[k].forEach((h,i)=>{const pp=document.querySelectorAll('.hero-art .paper')[i];if(!pp)return;pp.querySelector('img').src=ROOT+h[0];pp.querySelector('span').textContent=h[1];const y=pp.querySelector('b');if(y)y.textContent=h[2]});
  document.title='Legends Worldwide — Wholesale · '+C.name;

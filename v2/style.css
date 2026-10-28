@@ -107,8 +107,6 @@ body.locked main,body.locked .mobile-summary{filter:blur(6px);pointer-events:non
 .gbox .fine{font-size:9px;color:var(--muted);line-height:1.7;margin-top:14px}
 @media(max-width:850px){.trust{grid-template-columns:1fr;gap:14px}.stock-tab .cnt{display:none}}
 @media(max-width:620px){.stock-tabs{gap:8px}.stock-tab{padding:10px;gap:9px}.stock-tab svg{width:34px;height:46px}.stock-tab b{font-size:13px}.stock-tab small{font-size:9px}.stock-tab em{display:none}.sec-head h3{font-size:18px}.tchip{font-size:10px;padding:5px 8px}.gal img{height:260px}.curated-section .bform .button{flex:1}}
-@media(min-width:621px){#filters label:first-child{display:none}.filters{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(min-width:621px) and (max-width:850px){.filters{grid-template-columns:1fr 1fr}}
 .gbox img{width:150px}
 
 /* text blocks moved below the catalogue (2026-10-28) */
@@ -121,3 +119,8 @@ body.locked main,body.locked .mobile-summary{filter:blur(6px);pointer-events:non
 /* logo aspect fix (gate + footer): never stretch the 720×175 logo */
 .gbox img,.footer-main img{height:auto;aspect-ratio:720/175;object-fit:contain}
 .gbox img{width:210px;margin-bottom:22px}
+
+/* team dropdown instead of the chip buttons (2026-10-28) */
+.filters select{cursor:pointer}
+#team{font-weight:600;color:var(--ink)}
+@media(max-width:620px){.filters.open{display:grid}.filters select{border-radius:999px;padding:10px 16px;min-height:48px;font-size:14px;-webkit-appearance:none;appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 16'%3E%3Cpath d='M2 6l4-4 4 4M2 10l4 4 4-4' fill='none' stroke='%23111' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 16px center/10px 14px;color:#555}#team{color:var(--ink)}.filters label>span{font-size:9px;margin-bottom:8px}}
