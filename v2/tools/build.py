@@ -6,9 +6,12 @@ Run from the repo root:  python3 v2/tools/build.py
 import json,os,sys,datetime
 HERE=os.path.dirname(os.path.abspath(__file__));V2=os.path.dirname(HERE);REPO=os.path.dirname(V2)
 sys.path.insert(0,HERE);from extract import ex
+# Pieces removed from v2 (bad photo, etc.) — kept out on every rebuild
+EXCLUDE={'SA-1414'}
 meta={'updated':datetime.date.today().isoformat()}
 for key,src in [('sa','index.html'),('ca','ca/index.html')]:
     d=ex(os.path.join(REPO,src),key,'')
+    d['items']=[i for i in d['items'] if i['c'] not in EXCLUDE]
     json.dump(d,open(os.path.join(V2,'data',key+'.json'),'w'),ensure_ascii=False,separators=(',',':'))
     meta[key]=len(d['items'])
 json.dump(meta,open(os.path.join(V2,'data','meta.json'),'w'))
