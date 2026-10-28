@@ -110,3 +110,11 @@ body.locked main,body.locked .mobile-summary{filter:blur(6px);pointer-events:non
 @media(min-width:621px){#filters label:first-child{display:none}.filters{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(min-width:621px) and (max-width:850px){.filters{grid-template-columns:1fr 1fr}}
 .gbox img{width:150px}
+
+/* text blocks moved below the catalogue (2026-10-28) */
+.stock-switch{margin-bottom:22px}
+.stock-info{padding-top:70px;padding-bottom:30px;border-top:1px solid var(--line)}
+.stock-info .section-intro{margin-bottom:22px}
+.stock-info .stock-desc{margin:0 0 30px}
+.stock-info .trust{margin-bottom:0}
+@media(max-width:620px){.stock-info{padding-top:40px}}

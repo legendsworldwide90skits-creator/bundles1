@@ -51,7 +51,8 @@ function persist(){try{localStorage.setItem(C.sel,JSON.stringify([...selection])
 const NA='M8 12 L30 5 L56 6 L76 12 L81 22 L71 30 L66 40 L59 46 L50 49 L42 49 L35 45 L27 39 L19 33 L13 25 Z',CA='M27 39 L35 45 L42 49 L49 51 L47 56 L51 60 L57 64 L61 68 L58 71 L52 67 L46 63 L40 58 L34 52 L30 46 Z',SA='M58 71 L66 68 L77 72 L87 78 L89 86 L83 96 L75 104 L69 114 L64 125 L60 123 L60 111 L58 99 L54 87 L54 78 Z';
 const map=k=>`<svg viewBox="0 0 100 130" aria-hidden="true"><path d="${NA}" class="rg-land"/><path d="${CA}" class="${k==='ca'?'rg-on':'rg-land'}"/><path d="${SA}" class="${k==='sa'?'rg-on':'rg-land'}"/></svg>`;
 function renderSwitch(){const tab=k=>{const c=CFG[k],on=k===STOCK,n=counts[k];return `<button type="button" class="stock-tab${on?' on':''}" data-stock="${k}" aria-pressed="${on}">${map(k)}<span><b>${language==='es'?c.nameEs:c.name}${on?`<em>${t('youAreHere')}</em>`:''}</b><small>${language==='es'?c.tagEs:c.tag}</small></span>${n?`<span class="cnt">${n.toLocaleString('en-US')}<span>${t('piecesWord')}</span></span>`:''}</button>`};
- $('stockSwitch').innerHTML=`<div class="eyebrow">${t('chooseStock')}</div><div class="stock-tabs">${tab('sa')}${tab('ca')}</div><p class="stock-desc"><b>${sName()} — </b>${language==='es'?C.descEs:C.desc} ${t('stockNote')}</p>`;
+ $('stockSwitch').innerHTML=`<div class="eyebrow">${t('chooseStock')}</div><div class="stock-tabs">${tab('sa')}${tab('ca')}</div>`;
+ $('stockDesc').innerHTML=`<b>${sName()} — </b>${language==='es'?C.descEs:C.desc} ${t('stockNote')}`;
  $('trust').innerHTML=`<div><i>✓</i><div><b>${t('tAuth')}</b><p>${language==='es'?C.authEs:C.auth}</p></div></div><div><i>▶</i><div><b>${t('tQc')}</b><p>${t('tQcD')}</p></div></div><div><i>✈</i><div><b>${t('tShip')}</b><p>${t('tShipD')}</p></div></div>`;
  $('bundleStock').textContent=sName().toUpperCase();
  $('heroCount').textContent=products.length?products.length.toLocaleString('en-US')+' '+t('inStock')+' · '+sName():'';}
