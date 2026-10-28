@@ -3,7 +3,7 @@
    Wired to the live stock: data/<stock>.json is extracted from the current pages (../index.html, ../ca/index.html)
    by tools/extract.py, so both versions show the same pieces, codes and prices.
    Kept from the current page: stock switcher with maps, team/league tabs, piece counts, tier pricing,
-   px.json price multiplier, email gate (same Google Sheet), Bundle by budget, ?b= sample-bundle links. */
+   px.json price multiplier, Bundle by budget, ?b= sample-bundle links. */
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const B=document.body,ROOT=B.dataset.root||'../',UP=B.dataset.up||'./';
@@ -61,7 +61,7 @@ function renderTeams(){const by={};sections.forEach(s=>{(by[s.region]=by[s.regio
  let h=`<option value="">${t('allTeams')} (${products.length.toLocaleString('en-US')})</option>`;
  for(const r in by)h+=`<optgroup label="${esc(r)}">${by[r].map(s=>`<option value="${s.id}">${esc(s.name)} (${s.n})</option>`).join('')}</optgroup>`;
  $('team').innerHTML=h;$('team').value=team;}
-function translate(){document.documentElement.lang=language;$('lang').innerHTML=language==='en'?'EN <span>/ ES</span>':'ES <span>/ EN</span>';document.querySelectorAll('[data-i18n]').forEach(e=>e.innerHTML=t(e.dataset.i18n));document.querySelectorAll('[data-i18n-html]').forEach(e=>e.innerHTML=t(e.dataset.i18nHtml));$('lang').setAttribute('aria-label',language==='en'?'Switch to Spanish':'Switch to English');$('search').placeholder=language==='es'?'Buscar equipo, jugador o referencia…':'Search team, player or reference…';$('gateE').placeholder=language==='es'?'Tu email':'Your email';$('closeModal').setAttribute('aria-label',t('close'));renderSwitch();renderTeams();render();}
+function translate(){document.documentElement.lang=language;$('lang').innerHTML=language==='en'?'EN <span>/ ES</span>':'ES <span>/ EN</span>';document.querySelectorAll('[data-i18n]').forEach(e=>e.innerHTML=t(e.dataset.i18n));document.querySelectorAll('[data-i18n-html]').forEach(e=>e.innerHTML=t(e.dataset.i18nHtml));$('lang').setAttribute('aria-label',language==='en'?'Switch to Spanish':'Switch to English');$('search').placeholder=language==='es'?'Buscar equipo, jugador o referencia…':'Search team, player or reference…';$('closeModal').setAttribute('aria-label',t('close'));renderSwitch();renderTeams();render();}
 const sizeOk=(p,z)=>!z||String(p.size||'').toUpperCase().split(/\s*\/\s*/).includes(z);
 function card(p,off){const sel=selection.has(p.id);return `<article class="product-card ${sel?'selected':''}"><div class="product-visual"><img src="${img(p)}" alt="${esc(p.name)}" loading="lazy" width="300" height="340" data-detail="${p.id}"><span class="product-ref">${p.id}</span>${p.imgs.length>1?`<span class="count">1/${p.imgs.length}</span>`:''}<button class="quick-view" data-detail="${p.id}">${t('detail')} ↗</button></div><div class="product-body"><h3>${esc(p.name)}</h3><div class="product-meta">${p.size?`<span>${t('sizeLabel')} ${esc(p.size)}</span>`:''}${p.condition?`<span>${esc(conditionName(p.condition))}</span>`:''}${(p.tags||[]).map(x=>`<span class="tg">${esc(x)}</span>`).join('')}</div><div class="product-price"><div><b>${money(Math.max(0,p.price-off))}</b>${off?`<del>${money(p.price)}</del>`:''}</div><button class="add ${sel?'is-selected':''}" data-add="${p.id}" aria-label="${esc(t(sel?'remove':'add')+' '+p.name)}" aria-pressed="${sel}">${sel?'✓':'+'}</button></div></div></article>`;}
 function render(){
@@ -138,15 +138,6 @@ $('onlySel').onclick=()=>{onlySel=!onlySel;render()};
 $('closeModal').onclick=closeModal;$('modal').addEventListener('click',e=>{if(e.target===$('modal')){const b=$('modal').getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)closeModal();}});$('filterToggle').onclick=()=>{const open=$('filters').classList.toggle('open');$('filterToggle').setAttribute('aria-expanded',open);};$('mobileMenu').onclick=()=>{const open=$('mobileLinks').hidden;$('mobileLinks').hidden=!open;$('mobileMenu').setAttribute('aria-expanded',open);};$('mobileLinks').addEventListener('click',()=>{$('mobileLinks').hidden=true;$('mobileMenu').setAttribute('aria-expanded','false');});
 $('bForm').addEventListener('submit',e=>{e.preventDefault();build($('bIn').value)});$('bAgain').onclick=()=>{if(lastBudget)build(lastBudget)};$('bShow').onclick=showBundle;
 [300,500,700,1000,1500,2500].forEach(v=>{const b=document.createElement('button');b.type='button';b.textContent='€'+v.toLocaleString('en-US');b.onclick=()=>{$('bIn').value=v;build(v)};$('bQuick').appendChild(b)});
-/* ---------- email gate (same sheet and unlock keys as the current page) ---------- */
-(function(){const qs=new URLSearchParams(location.search),ref=(qs.get('ref')||'direct').slice(0,40);
- let open=true;try{open=!(localStorage.getItem('lw_unlocked_v1')||localStorage.getItem('lw_unlocked_ca_v1'))}catch(e){}
- if(!open)B.classList.remove('locked');else{B.classList.add('locked');setTimeout(()=>{try{$('gateE').focus()}catch(e){}},300)}
- $('gateF').addEventListener('submit',ev=>{ev.preventDefault();const em=$('gateE').value.trim();
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){$('gateErr').textContent=t('emailErr');$('gateE').focus();return}
-  $('gateErr').textContent='';$('gateB').disabled=true;$('gateB').firstChild.textContent=t('unlocking');
-  try{fetch(SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({email:em,consent:'notice',source:C.src+' · '+ref}),keepalive:true}).catch(()=>{})}catch(e){}
-  try{localStorage.setItem(C.gate,'1')}catch(e){}B.classList.remove('locked')});})();
 /* ---------- load stock (both stocks live in this one page; the map switches between them) ---------- */
 const cache={};let pxK=null;
 async function getStock(k){if(cache[k])return cache[k];const d=await fetch(UP+'data/'+k+'.json').then(r=>{if(!r.ok)throw Error('Catalogue unavailable');return r.json()});
