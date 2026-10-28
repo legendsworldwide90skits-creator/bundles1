@@ -6,7 +6,7 @@
    px.json price multiplier, Bundle by budget, ?b= sample-bundle links. */
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const B=document.body,ROOT=B.dataset.root||'../',UP=B.dataset.up||'./';
+const B=document.body,ROOT=B.dataset.root??'../',UP=B.dataset.up??'./';
 let STOCK=new URLSearchParams(location.search).get('stock')==='ca'?'ca':'sa';
 const CFG={
  sa:{name:'South America',nameEs:'Sudamérica',tag:'Vintage + 2000s + 2010s',tagEs:'Vintage + 2000s + 2010s',img:ROOT+'img/',px:ROOT+'px.json',sel:'br_sel_bundle',gate:'lw_unlocked_v1',src:'bundles1-v2',href:ROOT+'v2/',

@@ -16,7 +16,7 @@ for key,src in [('sa','v1/sa.html'),('ca','v1/ca.html')]:
     meta[key]=len(d['items'])
 json.dump(meta,open(os.path.join(V2,'data','meta.json'),'w'))
 tpl=open(os.path.join(HERE,'template.html')).read()
-v=dict(ROOT='',UP='v2/',STOCKNAME='South America & Central America',HERO1='img/SA-035.jpg',HERO1L='SA–035 / MADRID',HERO2='img/SA-056.jpg',HERO2L='SA–056 / BARCELONA',HERO2Y='2004/05')
+v=dict(ROOT='./',UP='v2/',STOCKNAME='South America & Central America',HERO1='./img/SA-035.jpg',HERO1L='SA–035 / MADRID',HERO2='./img/SA-056.jpg',HERO2L='SA–056 / BARCELONA',HERO2Y='2004/05')
 h=tpl.replace('{{STOCK}}','sa')
 for a,b2 in v.items():h=h.replace('{{'+a+'}}',b2)
 open(os.path.join(REPO,'index.html'),'w').write(h)
