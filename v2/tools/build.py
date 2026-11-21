@@ -15,7 +15,7 @@ def fixwords(x):
     if isinstance(x,dict): return {k:fixwords(v) for k,v in x.items()}
     return x
 # Pieces removed from v2 (bad photo, etc.) — kept out on every rebuild
-EXCLUDE={'SA-1414'}
+EXCLUDE={'SA-1414','SA-467','SA-820','SA-1028','SA-1029','SA-1297','SA-1443'}
 meta={'updated':datetime.date.today().isoformat()}
 for key,src in [('sa','v1/sa.html'),('ca','v1/ca.html')]:
     d=ex(os.path.join(REPO,src),key,'')
